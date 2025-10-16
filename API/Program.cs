@@ -1,12 +1,8 @@
 ﻿using GeneralTools.Data;
 using GeneralTools.Interfaces;
-using GeneralTools.Models;
 using GeneralTools.Repositorys;
 using GeneralTools.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,55 +10,43 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<EFData>(opt =>
     opt.UseInMemoryDatabase("ProdutosDB"));
 
-builder.Services.AddControllers();
-builder.Services.AddOpenApi();
+// Serviços e repositórios
 builder.Services.AddScoped<IProductRepository, ProductRepositorys>();
 builder.Services.AddScoped<IApiCredentialsRepository, ApiCredentialsRepository>();
 builder.Services.AddScoped<IProductServices, ProductServices>();
 
-
-// Configuração do JWT
-var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
-
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(key)
-    };
-});
-
-builder.Services.AddAuthorization();
+// Controllers
 builder.Services.AddControllers();
 
-// CORS (para o Angular acessar)
+// Swagger/OpenAPI
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddAuthorization();
+
+// CORS (para Angular)
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngular", policy =>
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader());
+    options.AddPolicy("AllowAngularApp",
+        policy => policy.WithOrigins("http://localhost:4200")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
 });
 
 var app = builder.Build();
 
-app.UseCors("AllowAngular");
 
+app.UseCors("AllowAngularApp");
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Swagger
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.MapControllers();
 
 app.Run();
-

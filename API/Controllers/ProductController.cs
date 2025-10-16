@@ -41,24 +41,7 @@ namespace GeneralTools.Controllers
             }
 
         }
-        // GET: api/<ValuesController>
-        //[HttpPost("auth")]
-        //public ObjectResult Auth([FromBody] Credentials credentials)
-        //{
-
-        //    try
-        //    {
-        //        var token = productServices.GetToken(credentials);
-        //        return Ok(token);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest($"Erro ao buscar task: {ex.Message}");
-        //    }
-
-
-        //}
-
+        
         [HttpGet("getProduct/{id}")]
         //[Authorize]
         public async Task<ObjectResult> GetProduct(int id)
@@ -82,9 +65,14 @@ namespace GeneralTools.Controllers
             try {
 
                 await productServices.SaveProduct(value);
-                return Ok("Produto adicionado com sucesso!");
+                return Ok(new
+                {
+                    message = "Produto adicionado com sucesso!",
+                    produto = value
+                });
 
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
                 return BadRequest($"Erro ao adicionar produto: {ex.Message}");
             }

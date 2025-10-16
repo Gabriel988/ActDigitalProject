@@ -96,8 +96,8 @@ namespace GeneralTools.Services
                 if(!id)
                     throw new Exception("Id incorreto ou faltando na request");
 
-                var task = GetProduct(product.Id.Value);
-                if (task == null)
+                var productdDTO = GetProduct(product.Id.Value);
+                if (productdDTO == null)
                     throw new Exception($"Nenhum produto cadastrado com esse Id: {id}");
 
                 if (ExistsProduct(product).Result)
