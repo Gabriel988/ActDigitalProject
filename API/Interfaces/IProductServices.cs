@@ -4,7 +4,7 @@ namespace GeneralTools.Interfaces
 {
     public interface IProductServices
     {
-        public Task<List<Product>> ListProduct(bool? status);
+        public Task<List<Product>> ListProduct(string? nome);
         Task SaveProduct(Product product);
         Task UpadateProduct(Product product);
         Task<Product> GetProduct(int id);

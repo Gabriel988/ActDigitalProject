@@ -28,11 +28,11 @@ namespace GeneralTools.Controllers
         #region Endpoints
         [HttpGet]
         //[Authorize]
-        public async Task<ObjectResult> Get([FromQuery] bool ?status)
+        public async Task<ObjectResult> Get([FromQuery] string ?nome)
         {
             try
             {
-                var productList = await productServices.ListProduct(status);
+                var productList = await productServices.ListProduct(nome);
                 return Ok(productList);
             }
             catch (Exception ex)

@@ -43,8 +43,8 @@ namespace GeneralTools.Services
                 if (!val.isValid)
                     throw new Exception(val.validation.message);
 
-                if (ExistsProduct(product).Result)
-                    throw new Exception("Já existe um produto cadastrado com esses dados!");
+                //if (ExistsProduct(product).Result)
+                //    throw new Exception("Já existe um produto cadastrado com esses dados!");
 
 
                 await productsRepository.SaveProduct(product);
@@ -58,7 +58,7 @@ namespace GeneralTools.Services
         /// <summary>
         /// Lista todos os produtos
         /// </summary>
-        public async Task<List<Product>> ListProduct(bool? status)
+        public async Task<List<Product>> ListProduct(string? nome)
         {
             try
             {
@@ -67,8 +67,8 @@ namespace GeneralTools.Services
                 if (productList == null || productList.Count == 0)
                     throw new Exception("Nenhum produto cadastrado!");
 
-                if (status != null)
-                    productList = productList.FindAll(x => x.Status == status).ToList();
+                if (nome != null)
+                    productList = productList.FindAll(x => x.Nome == nome).ToList();
 
 
                 return productList;
@@ -100,8 +100,8 @@ namespace GeneralTools.Services
                 if (productdDTO == null)
                     throw new Exception($"Nenhum produto cadastrado com esse Id: {id}");
 
-                if (ExistsProduct(product).Result)
-                    throw new Exception("Já existe um produto cadastrado com esses dados, ou banco está vazio!");
+                //if (ExistsProduct(product).Result)
+                //    throw new Exception("Já existe um produto cadastrado com esses dados, ou banco está vazio!");
 
                 await productsRepository.UpadateProduct(product);
             }
@@ -278,7 +278,7 @@ namespace GeneralTools.Services
 
                 var listProduct = await productsRepository.ListProduct();
 
-                if(listProduct != null && listProduct.Count > 0)
+                if(listProduct == null && listProduct.Count == 0)
                     return true;
 
                 var duplicate = listProduct.Where(x => x.Nome.Equals(product.Nome) || x.Descricao.Equals(product.Descricao)).FirstOrDefault();
