@@ -36,7 +36,6 @@ export class ProdutoLista implements OnInit {
       this.cdr.detectChanges();
     })
     .catch(err => {
-      this.produtos = [];
       this.cdr.detectChanges();
     });
 }
@@ -57,7 +56,7 @@ export class ProdutoLista implements OnInit {
   }
 
   editarProduto(produto: Product) {
-    this.router.navigate(['/edição']);
+    this.router.navigate(['/edicao', produto.id]);
 }
 
 }

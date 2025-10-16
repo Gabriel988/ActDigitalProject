@@ -13,7 +13,8 @@ import { CommonModule } from '@angular/common';
 })
 export class ProdutoEdit {
 
- produto = {
+ produto: Product ={
+    id: 0,
     nome: '',
     descricao: '',
     preco: 0.0,
@@ -30,7 +31,12 @@ export class ProdutoEdit {
   }
 
   salvarProduto() {
-    this.produto.dataCadastro = new Date(); 
+    var id = this.route.snapshot.paramMap.get('id');
+    if (id){ 
+      this.produtoService.atualizarProduto(parseInt(id),this.produto).then(() => {
+        this.router.navigate(['/']);
+      });
+  }
   }
 
   carregarProduto(id: number) {
