@@ -37,7 +37,7 @@ namespace GeneralTools.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Erro ao buscar os produtos: {ex.Message}");
+                return BadRequest(new { message = $"Erro ao buscar os produtos: {ex.Message}" });
             }
 
         }
@@ -54,7 +54,7 @@ namespace GeneralTools.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Erro ao buscar produto: {ex.Message}");
+                return BadRequest(new { message = $"Erro ao buscar produto: {ex.Message}" });
             }
         }
 
@@ -70,7 +70,7 @@ namespace GeneralTools.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequest($"Erro ao adicionar produto: {ex.Message}");
+                return BadRequest(new { message = $"Erro ao adicionar produto: {ex.Message}" });
             }
 
         }
@@ -89,7 +89,7 @@ namespace GeneralTools.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Erro ao adicionar um produto: {ex.Message}");
+                return BadRequest(new { message = $"Erro ao adicionar um produto: {ex.Message}" });
             }
         }
 
@@ -104,7 +104,7 @@ namespace GeneralTools.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"Erro ao adicionar produto: {ex.Message}");
+                return BadRequest(new { message = $"Erro ao adicionar produto: {ex.Message}" });
             }
            
         }

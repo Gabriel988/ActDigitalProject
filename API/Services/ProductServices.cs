@@ -101,7 +101,7 @@ namespace GeneralTools.Services
                     throw new Exception($"Nenhum produto cadastrado com esse Id: {id}");
 
                 if (ExistsProduct(product).Result)
-                    throw new Exception("Já existe um produto cadastrado com esses dados!");
+                    throw new Exception("Já existe um produto cadastrado com esses dados, ou banco está vazio!");
 
                 await productsRepository.UpadateProduct(product);
             }
@@ -278,7 +278,12 @@ namespace GeneralTools.Services
 
                 var listProduct = await productsRepository.ListProduct();
 
-                if (listProduct != null && listProduct.Count > 0 && listProduct.Any(x=>x.Nome.Equals(product.Nome) || x.Descricao.Equals(product.Descricao)))
+                if(listProduct != null && listProduct.Count > 0)
+                    return true;
+
+                var duplicate = listProduct.Where(x => x.Nome.Equals(product.Nome) || x.Descricao.Equals(product.Descricao)).FirstOrDefault();
+                
+                if(duplicate.Id.Value != product.Id)
                     return true;
                 else
                     return false;
