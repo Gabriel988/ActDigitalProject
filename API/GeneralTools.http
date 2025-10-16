@@ -1,0 +1,6 @@
+@GeneralTools_HostAddress = http://localhost:5171
+
+GET {{GeneralTools_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
