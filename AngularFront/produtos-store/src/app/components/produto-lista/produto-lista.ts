@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Product } from '../../models/product.model';
@@ -17,8 +17,9 @@ export class ProdutoLista implements OnInit {
 
   constructor(
     private router: Router,
-    private produtoService: ProductService
-  ) {this.carregarProdutos();}
+    private produtoService: ProductService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.carregarProdutos();
@@ -28,27 +29,35 @@ export class ProdutoLista implements OnInit {
     this.router.navigate(['/cadastro']);
   }
 
- async carregarProdutos() {
-  try {
-    this.produtos = await this.produtoService.listarProdutos()
-      .catch(err => {
-        console.error('Erro na promise listarProdutos:', err);
-        return [];
-      });
-
-    console.log('Produtos carregados:', this.produtos);
-  } catch (err) {
-    console.error('Erro ao carregar produtos:', err);
-    this.produtos = [];
-  }
+ carregarProdutos(): void {
+  this.produtoService.listarProdutos()
+    .then(data => {
+      this.produtos = data;
+      this.cdr.detectChanges();
+    })
+    .catch(err => {
+      this.produtos = [];
+      this.cdr.detectChanges();
+    });
 }
 
 
-  deletarProduto(id: number): void {
+  deletarProduto(produto: Product): void {
     if (confirm('Tem certeza que deseja deletar este produto?')) {
-      this.produtoService.deletarProduto(id).then(() => {
-        this.carregarProdutos();         
+      var id = Number(produto.id);
+      this.produtoService.deletarProduto(id)
+      .then(data => {   
+        console.log(data);
+        this.carregarProdutos();
+
+      }).catch(err => {
+        console.log('Erro ao deletar produto:', err);
       });
     }
   }
+
+  editarProduto(produto: Product) {
+    this.router.navigate(['/edição']);
+}
+
 }

@@ -32,8 +32,8 @@ namespace GeneralTools.Controllers
         {
             try
             {
-                var taskList = await productServices.ListProduct(status);
-                return Ok(taskList);
+                var productList = await productServices.ListProduct(status);
+                return Ok(productList);
             }
             catch (Exception ex)
             {
@@ -48,8 +48,8 @@ namespace GeneralTools.Controllers
         {
             try
             {
-                var task = await productServices.GetProduct(id);
-                return Ok(task);
+                var product = await productServices.GetProduct(id);
+                return Ok(product);
 
             }
             catch (Exception ex)
@@ -65,11 +65,7 @@ namespace GeneralTools.Controllers
             try {
 
                 await productServices.SaveProduct(value);
-                return Ok(new
-                {
-                    message = "Produto adicionado com sucesso!",
-                    produto = value
-                });
+                return Ok(new {message = "Produto adicionado com sucesso!"});
 
             }
             catch(Exception ex)
@@ -88,7 +84,7 @@ namespace GeneralTools.Controllers
 
                 value.Id = id;
                 await productServices.UpadateProduct(value);
-                return Ok("Produto alterado com sucesso!");
+                return Ok(new { message = "Produto alterado com sucesso!" });
 
             }
             catch (Exception ex)
@@ -104,7 +100,7 @@ namespace GeneralTools.Controllers
             try
             {
                 await productServices.DeleteProduct(id);
-                return Ok("Produto deletado com sucesso!");
+                return Ok(new { message = "Produto deletado com sucesso!" });
             }
             catch (Exception ex)
             {

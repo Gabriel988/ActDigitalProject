@@ -5,7 +5,7 @@ import { Product } from '../models/product.model';
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = 'http://localhost:5171/api/product'; // ajuste para sua API
+  private apiUrl = 'http://localhost:5171/api/product'; //==> localhost
 
   constructor() {}
 
@@ -16,7 +16,7 @@ export class ProductService {
 
   // GET - buscar produto por ID
   buscarProduto(id: number): Promise<Product> {
-    return this.request<Product>(`${this.apiUrl}/${id}`);
+    return this.request<Product>(`${this.apiUrl}/getProduct/${id}`);
   }
 
   // POST - criar novo produto
@@ -26,12 +26,12 @@ export class ProductService {
 
   // PUT - atualizar produto existente
   atualizarProduto(id: number, produto: Product): Promise<Product> {
-    return this.request<Product>(`${this.apiUrl}/${id}`, 'PUT', produto);
+    return this.request<Product>(`${this.apiUrl}/changeProduct/${id}`, 'PUT', produto);
   }
 
   // DELETE - remover produto
   deletarProduto(id: number): Promise<void> {
-    return this.request<void>(`${this.apiUrl}/${id}`, 'DELETE');
+    return this.request<void>(`${this.apiUrl}/deleteProduct/${id}`, 'DELETE');
   }
 
   // Função genérica de requisição

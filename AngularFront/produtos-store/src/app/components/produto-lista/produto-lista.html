@@ -17,8 +17,10 @@
         <span class="estoque" [ngClass]="{'disponivel': produto.status, 'indisponivel': !produto.status}">
           {{ produto.status ? 'Disponível' : 'Indisponível' }}
         </span>
+
+        <button class="edit-button" (click)="editarProduto(produto)">Alterar</button>
+        <button class="delete-button" (click)="deletarProduto(produto)">Deletar</button>
       </div>
     </div>
   </div>
 </div>
-

@@ -153,21 +153,21 @@ namespace GeneralTools.Services
         #endregion
 
         #region ApiCredencials
-        /// <summary>
-        /// Valida uma credencial
-        /// </summary>
-        /// <param name="credentials">Objeto</param>
-        public bool ValidateCredentials(Credentials credentials)
-        {
-            try
-            {
-                return apiRepository.ValidateCredentials(credentials);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
+        ///// <summary>
+        ///// Valida uma credencial
+        ///// </summary>
+        ///// <param name="credentials">Objeto</param>
+        //public bool ValidateCredentials(Credentials credentials)
+        //{
+        //    try
+        //    {
+        //        return apiRepository.ValidateCredentials(credentials);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw;
+        //    }
+        //}
 
         //public string GetToken(Credentials credentials)
         //{
