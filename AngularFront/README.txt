@@ -1,0 +1,1 @@
+Aplicação front-end em Angular para consumo da API 
