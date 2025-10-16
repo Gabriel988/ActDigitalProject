@@ -58,20 +58,20 @@ namespace GeneralTools.Services
         /// <summary>
         /// Lista todos os produtos
         /// </summary>
-        public async Task<List<Product>> ListProduct(string? status)
+        public async Task<List<Product>> ListProduct(bool? status)
         {
             try
             {
-                var productList = productsRepository.ListProduct();
+                var productList = await productsRepository.ListProduct();
 
-                if (productList == null || productList.Result.Count == 0)
+                if (productList == null || productList.Count == 0)
                     throw new Exception("Nenhum produto cadastrado!");
 
-                //if (!string.IsNullOrEmpty(status))
-                    //productList = productList.Result.FindAll(x => x.Status.Equals(status)).ToList();
+                if (status != null)
+                    productList = productList.FindAll(x => x.Status == status).ToList();
 
 
-                return await productList;
+                return productList;
             }
             catch (Exception ex)
             {
@@ -84,7 +84,7 @@ namespace GeneralTools.Services
         /// Método para atualizar um produto
         /// </summary>
         /// <param name="product">Objeto</param>
-        public void UpadateProduct(Product product)
+        public async Task UpadateProduct(Product product)
         {
             try
             {               
@@ -103,7 +103,7 @@ namespace GeneralTools.Services
                 if (ExistsProduct(product).Result)
                     throw new Exception("Já existe um produto cadastrado com esses dados!");
 
-                productsRepository.UpadateProduct(product);
+                await productsRepository.UpadateProduct(product);
             }
             catch (Exception ex)
             {
@@ -115,7 +115,7 @@ namespace GeneralTools.Services
         /// Pega um unico produto pelo ID
         /// </summary>
         /// <param name="id"></param>
-        public Product GetProduct(int id)
+        public async Task<Product> GetProduct(int id)
         {
             try
             {
@@ -123,7 +123,7 @@ namespace GeneralTools.Services
                 if (product == null)
                     throw new Exception($"Nenhum produto cadastrado com esse Id: {id}");
                 
-                return product;
+                return await product;
             }
             catch (Exception ex)
             {
@@ -135,7 +135,7 @@ namespace GeneralTools.Services
         /// Método para deletar um produto
         /// </summary>
         /// <param name="id">
-        public void DeleteProduct(int id)
+        public async Task DeleteProduct(int id)
         {
             try
             {
@@ -143,7 +143,7 @@ namespace GeneralTools.Services
                 if (product == null)
                     throw new Exception($"Nenhum produto cadastrado com esse Id: {id}");
 
-                productsRepository.DeleteProduct(id);
+               await  productsRepository.DeleteProduct(id);
             }
             catch (Exception ex)
             {

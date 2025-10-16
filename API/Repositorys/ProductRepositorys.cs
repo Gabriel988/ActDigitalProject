@@ -2,6 +2,7 @@
 using GeneralTools.Interfaces;
 using GeneralTools.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace GeneralTools.Repositorys
 {
@@ -52,11 +53,13 @@ namespace GeneralTools.Repositorys
         /// <summary>
         /// Método para atualizar um produto
         /// </summary>
-        public void UpadateProduct(Product product)
+        public async Task UpadateProduct(Product product)
         {
             try
             {
-               _context.Product.Update(product);
+                _context.ChangeTracker.Clear();
+                _context.Update(product);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -68,13 +71,12 @@ namespace GeneralTools.Repositorys
         /// Pega um unico produto pelo ID
         /// </summary>
         /// <param name="id"></param>
-        public Product GetProduct(int id)
+        public async Task<Product> GetProduct(int id)
         {
             try
             {
-                _context.Product.Find(id);
+                return await _context.Product.FindAsync(id);
 
-                return new Product();
             }
             catch (Exception ex)
             {
@@ -86,11 +88,13 @@ namespace GeneralTools.Repositorys
         /// Método para deletar um produto
         /// </summary>
         /// <param name="id">
-        public void DeleteProduct(int id)
+        public async Task DeleteProduct(int id)
         {
             try
             {
+                _context.ChangeTracker.Clear();
                 _context.Product.Remove(_context.Product.Find(id));
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {

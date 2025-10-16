@@ -4,10 +4,10 @@ namespace GeneralTools.Interfaces
 {
     public interface IProductServices
     {
-        public Task<List<Product>> ListProduct(string? status);
+        public Task<List<Product>> ListProduct(bool? status);
         Task SaveProduct(Product product);
-        public void UpadateProduct(Product product);
-        public Product GetProduct(int id);
-        public void DeleteProduct(int id);
+        Task UpadateProduct(Product product);
+        Task<Product> GetProduct(int id);
+        Task DeleteProduct(int id);
     }
 }

@@ -2,6 +2,7 @@
 using GeneralTools.Interfaces;
 using GeneralTools.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 
 namespace GeneralTools.Controllers
@@ -27,7 +28,7 @@ namespace GeneralTools.Controllers
         #region Endpoints
         [HttpGet]
         //[Authorize]
-        public async Task<ObjectResult> Get([FromQuery] string ?status)
+        public async Task<ObjectResult> Get([FromQuery] bool ?status)
         {
             try
             {
@@ -60,11 +61,11 @@ namespace GeneralTools.Controllers
 
         [HttpGet("getProduct/{id}")]
         //[Authorize]
-        public ObjectResult GetProduct(int id)
+        public async Task<ObjectResult> GetProduct(int id)
         {
             try
             {
-                var task = productServices.GetProduct(id);
+                var task = await productServices.GetProduct(id);
                 return Ok(task);
 
             }
@@ -92,13 +93,13 @@ namespace GeneralTools.Controllers
 
         [HttpPut("changeProduct/{id}")]
         //[Authorize]
-        public ObjectResult PutProduct(int id, [FromBody] Product value)
+        public async Task<ObjectResult> PutProduct(int id, [FromBody] Product value)
         {
             try
             {
 
                 value.Id = id;
-                productServices.UpadateProduct(value);
+                await productServices.UpadateProduct(value);
                 return Ok("Produto alterado com sucesso!");
 
             }
@@ -110,11 +111,11 @@ namespace GeneralTools.Controllers
 
         [HttpDelete("deleteProduct/{id}")]
         //[Authorize]
-        public ObjectResult DeleteProduct(int id)
+        public async Task<ObjectResult> DeleteProduct(int id)
         {
             try
             {
-                productServices.DeleteProduct(id);
+                await productServices.DeleteProduct(id);
                 return Ok("Produto deletado com sucesso!");
             }
             catch (Exception ex)
