@@ -278,7 +278,7 @@ namespace GeneralTools.Services
 
                 var listProduct = await productsRepository.ListProduct();
 
-                if (listProduct != null && listProduct.Count > 0 && listProduct.Any(x=>x.Nome.Equals(product.Nome) || x.Descrição.Equals(product.Descrição)))
+                if (listProduct != null && listProduct.Count > 0 && listProduct.Any(x=>x.Nome.Equals(product.Nome) || x.Descricao.Equals(product.Descricao)))
                     return true;
                 else
                     return false;

@@ -21,7 +21,7 @@ namespace GeneralTools.Models
         /// Descrição do Produto
         /// </summary>
         [MaxLength(255)]
-        public string? Descrição { get; set; }
+        public string? Descricao { get; set; }
 
         /// <summary>
         /// Data de cadastro
@@ -31,7 +31,7 @@ namespace GeneralTools.Models
         /// <summary>
         /// Preço do produto
         /// </summary>
-        public decimal? Preço { get; set; }
+        public decimal? Preco { get; set; }
 
         /// <summary>
         /// Quantidade no estoque
