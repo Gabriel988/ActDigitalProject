@@ -1,42 +1,55 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { Product } from '../models/product.model';
-import { ViewChild } from '@angular/core';
-import { Toast } from '../components/toast/toast';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = 'https://localhost:7082/api/product'; // URL do seu localhost para a API.NET
-   
-  @ViewChild('toast') toast!: Toast;
+  private apiUrl = 'http://localhost:5171/api/product'; // ajuste para sua API
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
-   // GET - listar todos os produtos
-  listarProdutos(): Observable<Product[]> {
-      return this.http.get<Product[]>(this.apiUrl);
+  // GET - listar todos os produtos
+  listarProdutos(): Promise<Product[]> {
+    return this.request<Product[]>(this.apiUrl);
   }
 
   // GET - buscar produto por ID
-  buscarProduto(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.apiUrl}/${id}`);
+  buscarProduto(id: number): Promise<Product> {
+    return this.request<Product>(`${this.apiUrl}/${id}`);
   }
 
   // POST - criar novo produto
-  criarProduto(produto: Product): Observable<Product> {
-    return this.http.post<Product>(this.apiUrl+"/registerProduct", produto);
+  criarProduto(produto: Product): Promise<Product> {
+    return this.request<Product>(`${this.apiUrl}/registerProduct`, 'POST', produto);
   }
 
   // PUT - atualizar produto existente
-  atualizarProduto(id: number, produto: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.apiUrl}/${id}`, produto);
+  atualizarProduto(id: number, produto: Product): Promise<Product> {
+    return this.request<Product>(`${this.apiUrl}/${id}`, 'PUT', produto);
   }
 
   // DELETE - remover produto
-  deletarProduto(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+  deletarProduto(id: number): Promise<void> {
+    return this.request<void>(`${this.apiUrl}/${id}`, 'DELETE');
+  }
+
+  // Função genérica de requisição
+  private request<T>(url: string, method: string = 'GET', body?: any): Promise<T> {
+    const options: RequestInit = {
+      method,
+      headers: body ? { 'Content-Type': 'application/json' } : undefined,
+      body: body ? JSON.stringify(body) : undefined
+    };
+
+    return fetch(url, options).then(async res => {
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || res.statusText);
+      }
+      // Se não houver conteúdo, retorna undefined
+      if (res.status === 204) return undefined as unknown as T;
+      return res.json() as Promise<T>;
+    });
   }
 }

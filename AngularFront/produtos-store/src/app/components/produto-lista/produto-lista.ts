@@ -1,62 +1,54 @@
-import { Component , OnInit } from '@angular/core';
-import { Product } from '../../models/product.model';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product.service';
-import { ViewChild } from '@angular/core';
-import { Toast } from '../toast/toast';
-import { Console } from 'console';
 
 @Component({
   selector: 'app-produto-lista',
-  imports: [CommonModule,Toast],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './produto-lista.html',
-  styleUrl: './produto-lista.css'
+  styleUrls: ['./produto-lista.css']
 })
-
 export class ProdutoLista implements OnInit {
-
-   @ViewChild('toast') toast!: Toast;
 
   produtos: Product[] = [];
 
-  constructor(private router: Router, private produtoService: ProductService) {
+  constructor(
+    private router: Router,
+    private produtoService: ProductService
+  ) {this.carregarProdutos();}
 
+  ngOnInit(): void {
     this.carregarProdutos();
-
   }
 
-  adicionarProduto() {
+  adicionarProduto(): void {
     this.router.navigate(['/cadastro']);
   }
 
-  carregarProdutos() {
-  this.produtoService.listarProdutos().subscribe({
-    next: res => {
-      this.produtos = [...res];
-      this.toast.exibir('Produtos carregados com sucesso!', 'sucesso');
-    },
-    error: err => {
-      const msg = err.error?.message || 'Erro ao carregar produtos';
-      this.toast.exibir(msg, 'erro');
-    }
-  });
+ async carregarProdutos() {
+  try {
+    this.produtos = await this.produtoService.listarProdutos()
+      .catch(err => {
+        console.error('Erro na promise listarProdutos:', err);
+        return [];
+      });
+
+    console.log('Produtos carregados:', this.produtos);
+  } catch (err) {
+    console.error('Erro ao carregar produtos:', err);
+    this.produtos = [];
+  }
 }
 
 
-  deletarProduto(id: number) {
-    if(confirm('Tem certeza que deseja deletar este produto?')) {
-      this.produtoService.deletarProduto(id).subscribe({
-        next: () => this.carregarProdutos(),
-        error: err => {
-          const msg = err.error?.message || 'Erro ao deletar produto';
-          this.toast.exibir(msg, 'erro');
-        }
+  deletarProduto(id: number): void {
+    if (confirm('Tem certeza que deseja deletar este produto?')) {
+      this.produtoService.deletarProduto(id).then(() => {
+        this.carregarProdutos();         
       });
     }
   }
-
-  ngOnInit(): void {
-  }
-
 }

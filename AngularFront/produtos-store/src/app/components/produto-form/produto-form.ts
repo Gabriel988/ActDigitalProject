@@ -2,18 +2,15 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms'; 
 import { ProductService } from '../../services/product.service';
-import { ViewChild } from '@angular/core';
-import { Toast } from '../toast/toast';
 
 @Component({
   selector: 'app-produto-form',
   templateUrl: './produto-form.html',
   styleUrls: ['./produto-form.css'],
-  imports: [FormsModule,Toast]
+  imports: [FormsModule],
+  standalone: true,
 })
 export class ProdutoForm {
-
-  @ViewChild('toast') toast!: Toast;
 
   produto = {
     nome: '',
@@ -29,15 +26,11 @@ export class ProdutoForm {
 
   salvarProduto() {
     this.produto.dataCadastro = new Date();
-    this.produtoService.criarProduto(this.produto).subscribe({
-      next: () => {
-        this.toast.exibir('Produto cadastrado com sucesso!', 'sucesso');
-        setTimeout(() => this.router.navigate(['/']), 1000);
-      },
-      error: err => {
-        const msg = err.error?.message || 'Erro ao cadastrar produto';
-        this.toast.exibir(msg, 'erro');
-      }
+    this.produtoService.criarProduto(this.produto).then(() => {
+      console.log('Produto salvo com sucesso!', 'success');
+      this.router.navigate(['/']);
+    }).catch((error) => {
+      console.log(`Erro ao salvar produto: ${error.message}`, 'error');
     });
   }
 
