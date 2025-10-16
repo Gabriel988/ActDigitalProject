@@ -48,7 +48,6 @@ export class ProdutoEdit {
 
   ngOnInit() { 
     const id = this.route.snapshot.paramMap.get('id');
-    //console.log(id);
     if (id) {
       this.carregarProduto(Number(id));
     }

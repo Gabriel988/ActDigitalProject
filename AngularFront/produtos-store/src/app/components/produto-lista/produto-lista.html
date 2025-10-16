@@ -2,8 +2,8 @@
   <h1>Produtos Cadastrados</h1>
   <div class="cards">
     <div class="search-container">
-    <input type="text" placeholder="Buscar produto..." class="search-bar" />
-    <input type="button" class="search-button" value="Buscar"/>
+    <input type="text" placeholder="Buscar produto..." class="search-bar" [(ngModel)]="searchBarText.input"/>
+    <input type="button" class="search-button" value="Buscar" (click)="pesquisar()"/>
     </div>
     <input type="button" value="Adicionar Produto" class="add-button" (click)="adicionarProduto()"/>
     <div class="card" *ngFor="let produto of produtos">

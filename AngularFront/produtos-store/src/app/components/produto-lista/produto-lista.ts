@@ -1,19 +1,24 @@
-import { Component, OnInit , ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit , ChangeDetectorRef, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Product } from '../../models/product.model';
+import { FormsModule } from '@angular/forms'; 
 import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-produto-lista',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,FormsModule],
   templateUrl: './produto-lista.html',
   styleUrls: ['./produto-lista.css']
 })
 export class ProdutoLista implements OnInit {
 
   produtos: Product[] = [];
+
+  searchBarText = {
+    input: ''
+  };
 
   constructor(
     private router: Router,
@@ -38,8 +43,27 @@ export class ProdutoLista implements OnInit {
     .catch(err => {
       this.cdr.detectChanges();
     });
-}
+  }
 
+    buscarProdutos(nome: string): void {
+      console.log(nome);
+      this.produtoService.listarProdutosFilter(nome)
+      .then(data => {
+
+        this.produtos = data;
+        this.cdr.detectChanges();
+
+      }).catch(err => {
+        console.log('Erro ao buscar produtos:', err);
+        this.cdr.detectChanges();
+      });
+
+    
+  }
+
+  pesquisar(): void {
+    this.buscarProdutos(this.searchBarText.input);
+  }
 
   deletarProduto(produto: Product): void {
     if (confirm('Tem certeza que deseja deletar este produto?')) {

@@ -14,6 +14,11 @@ export class ProductService {
     return this.request<Product[]>(this.apiUrl);
   }
 
+  // GET - listar todos os produtos
+  listarProdutosFilter(nome: string): Promise<Product[]> {
+    return this.request<Product[]>(`${this.apiUrl}/?nome=${nome}`);
+  }
+
   // GET - buscar produto por ID
   buscarProduto(id: number): Promise<Product> {
     return this.request<Product>(`${this.apiUrl}/getProduct/${id}`);
