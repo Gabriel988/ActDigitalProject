@@ -1,1 +1,18 @@
-<p>produto-lista works!</p>
+<div class="container">
+  <h1>Produtos</h1>
+  <div class="cards">
+    <div class="card" *ngFor="let produto of produtos">
+      <div class="card-header">
+        <h2>{{ produto.nome }}</h2>
+        <span class="categoria">{{ produto.categoria }}</span>
+      </div>
+      <p class="descricao">{{ produto.descricao }}</p>
+      <div class="card-footer">
+        <span class="preco">R$ {{ produto.preco | number:'1.2-2' }}</span>
+        <span class="estoque" [ngClass]="{'disponivel': produto.status, 'indisponivel': !produto.status}">
+          {{ produto.status ? 'Disponível' : 'Indisponível' }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
