@@ -7,23 +7,32 @@ import { Product } from '../models/product.model';
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = 'https://localhost:7082/api/product'; // URL da sua API .NET
+  private apiUrl = 'https://localhost:7082/api/product'; // URL do seu localhost para a API.NET
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl);
+   // GET - listar todos os produtos
+  listarProdutos(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.apiUrl+"");
   }
 
-  create(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.apiUrl, product);
+  // GET - buscar produto por ID
+  buscarProduto(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.apiUrl}/${id}`);
   }
 
-  update(product: Product): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/${product.id}`, product);
+  // POST - criar novo produto
+  criarProduto(produto: Product): Observable<Product> {
+    return this.http.post<Product>(this.apiUrl, produto);
   }
 
-  delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  // PUT - atualizar produto existente
+  atualizarProduto(id: number, produto: Product): Observable<Product> {
+    return this.http.put<Product>(`${this.apiUrl}/${id}`, produto);
+  }
+
+  // DELETE - remover produto
+  deletarProduto(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }

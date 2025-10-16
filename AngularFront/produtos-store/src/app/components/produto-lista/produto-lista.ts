@@ -1,9 +1,12 @@
 import { Component , OnInit } from '@angular/core';
 import { Product } from '../../models/product.model';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-produto-lista',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './produto-lista.html',
   styleUrl: './produto-lista.css'
 })
@@ -31,7 +34,21 @@ export class ProdutoLista implements OnInit {
     }
   ];
 
-  constructor() { }
+  constructor(private router: Router, private produtoService: ProductService) {}
+
+  adicionarProduto() {
+    this.router.navigate(['/cadastro']);
+  }
+
+  carregarProdutos() {
+    this.produtoService.listarProdutos().subscribe(res => this.produtos = res);
+  }
+
+  deletarProduto(id: number) {
+    if(confirm('Tem certeza que deseja deletar este produto?')) {
+      this.produtoService.deletarProduto(id).subscribe(() => this.carregarProdutos());
+    }
+  }
 
   ngOnInit(): void {
   }

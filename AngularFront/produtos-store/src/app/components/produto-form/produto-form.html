@@ -1,1 +1,43 @@
-<p>produto-form works!</p>
+<div class="container">
+  <h1>Cadastro de Produto</h1>
+
+  <div class="form-card">
+    <div class="form-field">
+      <label>Nome</label>
+      <input type="text" [(ngModel)]="produto.nome" placeholder="Digite o nome do produto">
+    </div>
+
+    <div class="form-field">
+      <label>Descrição</label>
+      <textarea [(ngModel)]="produto.descricao" placeholder="Digite a descrição"></textarea>
+    </div>
+
+    <div class="form-field">
+      <label>Preço</label>
+      <input type="number" [(ngModel)]="produto.preco" placeholder="0.00" step="0.01">
+    </div>
+
+    <div class="form-field">
+      <label>Quantidade em Estoque</label>
+      <input type="number" [(ngModel)]="produto.quantidadeEstoque" placeholder="0">
+    </div>
+
+    <div class="form-field">
+      <label>Categoria</label>
+      <input type="text" [(ngModel)]="produto.categoria" placeholder="Digite a categoria">
+    </div>
+
+    <div class="form-field">
+      <label>Status</label>
+      <select [(ngModel)]="produto.status">
+        <option [value]="true">Disponível</option>
+        <option [value]="false">Indisponível</option>
+      </select>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn-salvar" (click)="salvarProduto()">Salvar</button>
+      <button class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+    </div>
+  </div>
+</div>
