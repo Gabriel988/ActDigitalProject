@@ -6,4 +6,5 @@ export interface Product {
   quantidadeEstoque: number;
   categoria: string;
   status: boolean;
+  dataCadastro: Date;
 }

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { ViewChild } from '@angular/core';
 import { Toast } from '../toast/toast';
+import { Console } from 'console';
 
 @Component({
   selector: 'app-produto-lista',
@@ -17,26 +18,7 @@ export class ProdutoLista implements OnInit {
 
    @ViewChild('toast') toast!: Toast;
 
-  produtos: Product[] = [
-    {
-      id: 1,
-      nome: 'Mouse Gamer RGB',
-      descricao: 'Mouse ergonômico com iluminação RGB e 6 botões programáveis',
-      preco: 149.90,
-      quantidadeEstoque: 120,
-      categoria: 'Periféricos',
-      status: true
-    },
-    {
-      id: 2,
-      nome: 'Teclado Mecânico',
-      descricao: 'Teclado mecânico com switches azuis, retroiluminação LED',
-      preco: 299.90,
-      quantidadeEstoque: 50,
-      categoria: 'Periféricos',
-      status: true
-    }
-  ];
+  produtos: Product[] = [];
 
   constructor(private router: Router, private produtoService: ProductService) {
 
@@ -49,12 +31,28 @@ export class ProdutoLista implements OnInit {
   }
 
   carregarProdutos() {
-    this.produtoService.listarProdutos().subscribe(res => this.produtos = res);
-  }
+  this.produtoService.listarProdutos().subscribe({
+    next: res => {
+      this.produtos = [...res];
+      this.toast.exibir('Produtos carregados com sucesso!', 'sucesso');
+    },
+    error: err => {
+      const msg = err.error?.message || 'Erro ao carregar produtos';
+      this.toast.exibir(msg, 'erro');
+    }
+  });
+}
+
 
   deletarProduto(id: number) {
     if(confirm('Tem certeza que deseja deletar este produto?')) {
-      this.produtoService.deletarProduto(id).subscribe(() => this.carregarProdutos());
+      this.produtoService.deletarProduto(id).subscribe({
+        next: () => this.carregarProdutos(),
+        error: err => {
+          const msg = err.error?.message || 'Erro ao deletar produto';
+          this.toast.exibir(msg, 'erro');
+        }
+      });
     }
   }
 

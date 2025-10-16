@@ -17,16 +17,7 @@ export class ProductService {
 
    // GET - listar todos os produtos
   listarProdutos(): Observable<Product[]> {
-      var request = this.http.get<Product[]>(this.apiUrl);
-
-      request.subscribe({
-        error: (err) => {
-          this.toast.exibir('Erro ao carregar produtos: ' + err.message, 'erro');
-          return;
-        }
-      });
-
-      return request;
+      return this.http.get<Product[]>(this.apiUrl);
   }
 
   // GET - buscar produto por ID
@@ -36,7 +27,7 @@ export class ProductService {
 
   // POST - criar novo produto
   criarProduto(produto: Product): Observable<Product> {
-    return this.http.post<Product>(this.apiUrl, produto);
+    return this.http.post<Product>(this.apiUrl+"/registerProduct", produto);
   }
 
   // PUT - atualizar produto existente

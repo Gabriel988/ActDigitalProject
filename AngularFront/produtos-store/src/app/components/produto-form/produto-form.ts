@@ -21,15 +21,23 @@ export class ProdutoForm {
     preco: 0.0,
     quantidadeEstoque: 0,
     categoria: '',
-    status: true
+    status: true,
+    dataCadastro: new Date()
   };
 
   constructor(private produtoService: ProductService, private router: Router) { }
 
   salvarProduto() {
-    this.produtoService.criarProduto(this.produto).subscribe(() => {
-      this.toast.exibir('Produto criado com sucesso!', 'sucesso');
-      this.router.navigate(['/']);
+    this.produto.dataCadastro = new Date();
+    this.produtoService.criarProduto(this.produto).subscribe({
+      next: () => {
+        this.toast.exibir('Produto cadastrado com sucesso!', 'sucesso');
+        setTimeout(() => this.router.navigate(['/']), 1000);
+      },
+      error: err => {
+        const msg = err.error?.message || 'Erro ao cadastrar produto';
+        this.toast.exibir(msg, 'erro');
+      }
     });
   }
 
