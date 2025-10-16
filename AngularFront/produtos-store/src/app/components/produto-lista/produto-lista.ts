@@ -3,15 +3,19 @@ import { Product } from '../../models/product.model';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
+import { ViewChild } from '@angular/core';
+import { Toast } from '../toast/toast';
 
 @Component({
   selector: 'app-produto-lista',
-  imports: [CommonModule],
+  imports: [CommonModule,Toast],
   templateUrl: './produto-lista.html',
   styleUrl: './produto-lista.css'
 })
 
 export class ProdutoLista implements OnInit {
+
+   @ViewChild('toast') toast!: Toast;
 
   produtos: Product[] = [
     {
@@ -34,7 +38,11 @@ export class ProdutoLista implements OnInit {
     }
   ];
 
-  constructor(private router: Router, private produtoService: ProductService) {}
+  constructor(private router: Router, private produtoService: ProductService) {
+
+    this.carregarProdutos();
+
+  }
 
   adicionarProduto() {
     this.router.navigate(['/cadastro']);
