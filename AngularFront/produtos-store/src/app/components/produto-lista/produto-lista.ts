@@ -73,7 +73,7 @@ export class ProdutoLista implements OnInit {
         this.carregarProdutos();
 
       }).catch(err => {
-        console.log('Erro ao deletar produto:', err);
+        this.mostrarMensagem(err, 'error');
       });
     }
   }
