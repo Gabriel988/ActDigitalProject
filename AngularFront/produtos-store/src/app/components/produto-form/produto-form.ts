@@ -31,6 +31,7 @@ export class ProdutoForm {
     .then(response => {      
         const msg = response?.message;
         this.mostrarMensagem(msg, 'success');  
+        this.router.navigate(['/']);
     }).catch((error) => {
         this.mostrarMensagem(error, 'error');
     });

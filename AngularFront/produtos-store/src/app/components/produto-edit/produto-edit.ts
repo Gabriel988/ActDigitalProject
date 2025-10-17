@@ -42,6 +42,7 @@ export class ProdutoEdit {
       .then(response=> {
 
         this.mostrarMensagem(response?.message, 'success');    
+        this.router.navigate(['/']);
 
       }).catch(err => {
         this.mostrarMensagem(err, 'error');
