@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Product } from '../../models/product.model';
 import { FormsModule } from '@angular/forms'; 
 import { ProductService } from '../../services/product.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-produto-lista',
@@ -23,7 +24,8 @@ export class ProdutoLista implements OnInit {
   constructor(
     private router: Router,
     private produtoService: ProductService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -34,31 +36,27 @@ export class ProdutoLista implements OnInit {
     this.router.navigate(['/cadastro']);
   }
 
- carregarProdutos(): void {
-  this.produtoService.listarProdutos()
+  carregarProdutos(): void {
+    this.produtoService.listarProdutos()
     .then(data => {
       this.produtos = data;
-      this.cdr.detectChanges();
+      this.cdr.detectChanges();    
     })
     .catch(err => {
+      this.mostrarMensagem(err?.message, 'error');
       this.cdr.detectChanges();
     });
   }
 
-    buscarProdutos(nome: string): void {
-      console.log(nome);
-      this.produtoService.listarProdutosFilter(nome)
+  buscarProdutos(nome: string): void {
+      this.produtoService.listarProdutosFiltro(nome)
       .then(data => {
-
         this.produtos = data;
         this.cdr.detectChanges();
-
       }).catch(err => {
-        console.log('Erro ao buscar produtos:', err);
+        this.mostrarMensagem(err, 'error');
         this.cdr.detectChanges();
-      });
-
-    
+      });   
   }
 
   pesquisar(): void {
@@ -69,8 +67,9 @@ export class ProdutoLista implements OnInit {
     if (confirm('Tem certeza que deseja deletar este produto?')) {
       var id = Number(produto.id);
       this.produtoService.deletarProduto(id)
-      .then(data => {   
-        console.log(data);
+      .then(response => {      
+        const msg = response?.message;
+        this.mostrarMensagem(msg, 'success');
         this.carregarProdutos();
 
       }).catch(err => {
@@ -81,6 +80,19 @@ export class ProdutoLista implements OnInit {
 
   editarProduto(produto: Product) {
     this.router.navigate(['/edicao', produto.id]);
-}
+  }
+
+  mostrarMensagem(msg: string, tipo: 'success' | 'error' = 'success') {
+    this.snackBar.open(msg, 'Fechar', {
+    duration: 4000,
+    horizontalPosition: 'right',
+    verticalPosition: 'bottom',
+    panelClass: tipo === 'success'
+        ? 'snack-success'
+        : tipo === 'error'
+          ? 'snack-error'
+          : 'snack-info'
+    });
+  }
 
 }

@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute} from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-produto-edit',
@@ -24,7 +25,11 @@ export class ProdutoEdit {
     dataCadastro: new Date()
 
   };
-  constructor(private produtoService: ProductService, private router: Router, private route : ActivatedRoute) { }
+  constructor(private produtoService: ProductService, 
+    private router: Router, 
+    private route : ActivatedRoute, 
+    private cdr: ChangeDetectorRef,
+    private snackBar: MatSnackBar) { }
 
   cancelar() {
     this.router.navigate(['/']);
@@ -33,15 +38,26 @@ export class ProdutoEdit {
   salvarProduto() {
     var id = this.route.snapshot.paramMap.get('id');
     if (id){ 
-      this.produtoService.atualizarProduto(parseInt(id),this.produto).then(() => {
-        this.router.navigate(['/']);
+      this.produtoService.atualizarProduto(parseInt(id),this.produto)
+      .then(response=> {
+
+        this.mostrarMensagem(response?.message, 'success');    
+
+      }).catch(err => {
+        this.mostrarMensagem(err, 'error');
       });
   }
   }
 
   carregarProduto(id: number) {
-    this.produtoService.buscarProduto(id).then(produto => {
+    this.produtoService.buscarProduto(id)
+    .then(produto => {
       this.produto = produto;
+      this.cdr.detectChanges();
+
+    }).catch(err => {
+      this.mostrarMensagem(err, 'error');
+      this.cdr.detectChanges();
     });
   }
 
@@ -52,5 +68,18 @@ export class ProdutoEdit {
       this.carregarProduto(Number(id));
     }
   
+  }
+
+  mostrarMensagem(msg: string, tipo: 'success' | 'error' = 'success') {
+    this.snackBar.open(msg, 'Fechar', {
+    duration: 4000,
+    horizontalPosition: 'right',
+    verticalPosition: 'bottom',
+    panelClass: tipo === 'success'
+        ? 'snack-success'
+        : tipo === 'error'
+          ? 'snack-error'
+          : 'snack-info'
+    });
   }
 }

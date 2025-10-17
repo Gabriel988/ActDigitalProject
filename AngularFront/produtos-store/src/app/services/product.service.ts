@@ -15,7 +15,7 @@ export class ProductService {
   }
 
   // GET - listar todos os produtos
-  listarProdutosFilter(nome: string): Promise<Product[]> {
+  listarProdutosFiltro(nome: string): Promise<Product[]> {
     return this.request<Product[]>(`${this.apiUrl}/?nome=${nome}`);
   }
 
@@ -25,18 +25,18 @@ export class ProductService {
   }
 
   // POST - criar novo produto
-  criarProduto(produto: Product): Promise<Product> {
-    return this.request<Product>(`${this.apiUrl}/registerProduct`, 'POST', produto);
+  criarProduto(produto: Product): Promise<{ message: string }> {
+    return this.request<{ message: string }>(`${this.apiUrl}/registerProduct`, 'POST', produto);
   }
 
   // PUT - atualizar produto existente
-  atualizarProduto(id: number, produto: Product): Promise<Product> {
-    return this.request<Product>(`${this.apiUrl}/changeProduct/${id}`, 'PUT', produto);
+  atualizarProduto(id: number, produto: Product): Promise<{ message: string }> {
+    return this.request<{ message: string }>(`${this.apiUrl}/changeProduct/${id}`, 'PUT', produto);
   }
 
   // DELETE - remover produto
-  deletarProduto(id: number): Promise<void> {
-    return this.request<void>(`${this.apiUrl}/deleteProduct/${id}`, 'DELETE');
+  deletarProduto(id: number): Promise<{ message: string }> {
+    return this.request<{ message: string }>(`${this.apiUrl}/deleteProduct/${id}`, 'DELETE');
   }
 
   // Função genérica de requisição

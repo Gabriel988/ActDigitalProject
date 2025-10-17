@@ -43,8 +43,8 @@ namespace GeneralTools.Services
                 if (!val.isValid)
                     throw new Exception(val.validation.message);
 
-                //if (ExistsProduct(product).Result)
-                //    throw new Exception("Já existe um produto cadastrado com esses dados!");
+                if (ExistsDuplicateProduct(product).Result)
+                    throw new Exception("Já existe um produto cadastrado com esses dados!");
 
 
                 await productsRepository.SaveProduct(product);
@@ -92,16 +92,8 @@ namespace GeneralTools.Services
                 if (!val.isValid)
                     throw new Exception(val.validation.message);
 
-                var id = product.Id.HasValue;
-                if(!id)
-                    throw new Exception("Id incorreto ou faltando na request");
-
-                var productdDTO = GetProduct(product.Id.Value);
-                if (productdDTO == null)
-                    throw new Exception($"Nenhum produto cadastrado com esse Id: {id}");
-
-                //if (ExistsProduct(product).Result)
-                //    throw new Exception("Já existe um produto cadastrado com esses dados, ou banco está vazio!");
+                if (ExistsDuplicateProduct(product).Result)
+                    throw new Exception("Já existe um produto cadastrado com esses dados, ou banco está vazio!");
 
                 await productsRepository.UpadateProduct(product);
             }
@@ -153,6 +145,9 @@ namespace GeneralTools.Services
         #endregion
 
         #region ApiCredencials
+
+        //Até pensei em colocar uma validação de Token na API mas não deu tempo...
+
         ///// <summary>
         ///// Valida uma credencial
         ///// </summary>
@@ -271,27 +266,23 @@ namespace GeneralTools.Services
 
         #region AddtionalMethods
 
-        private async Task<bool> ExistsProduct(Product product)
+        private async Task<bool> ExistsDuplicateProduct(Product product)
         {
             try
             {
+                var products = await productsRepository.ListProduct();
 
-                var listProduct = await productsRepository.ListProduct();
-
-                if(listProduct == null && listProduct.Count == 0)
-                    return true;
-
-                var duplicate = listProduct.Where(x => x.Nome.Equals(product.Nome) || x.Descricao.Equals(product.Descricao)).FirstOrDefault();
-                
-                if(duplicate.Id.Value != product.Id)
-                    return true;
-                else
+                if (products == null || products.Count == 0)
                     return false;
+
+                return products.Any(p =>
+                    (p.Nome.Equals(product.Nome, StringComparison.OrdinalIgnoreCase) ||
+                     p.Descricao.Equals(product.Descricao, StringComparison.OrdinalIgnoreCase)) &&
+                    p.Id != product.Id);
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
-
             }
         }
 

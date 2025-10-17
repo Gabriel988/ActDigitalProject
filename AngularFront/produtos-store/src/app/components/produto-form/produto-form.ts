@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms'; 
 import { ProductService } from '../../services/product.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-produto-form',
@@ -22,15 +23,16 @@ export class ProdutoForm {
     dataCadastro: new Date()
   };
 
-  constructor(private produtoService: ProductService, private router: Router) { }
+  constructor(private produtoService: ProductService, private router: Router, private snackBar: MatSnackBar) { }
 
   salvarProduto() {
     this.produto.dataCadastro = new Date();
-    this.produtoService.criarProduto(this.produto).then(() => {
-      console.log('Produto salvo com sucesso!', 'success');
-      this.router.navigate(['/']);
+    this.produtoService.criarProduto(this.produto)
+    .then(response => {      
+        const msg = response?.message;
+        this.mostrarMensagem(msg, 'success');  
     }).catch((error) => {
-      console.log(`Erro ao salvar produto: ${error.message}`, 'error');
+        this.mostrarMensagem(error, 'error');
     });
   }
 
@@ -38,4 +40,16 @@ export class ProdutoForm {
     this.router.navigate(['/']);
   }
 
+  mostrarMensagem(msg: string, tipo: 'success' | 'error' = 'success') {
+    this.snackBar.open(msg, 'Fechar', {
+    duration: 4000,
+    horizontalPosition: 'right',
+    verticalPosition: 'bottom',
+    panelClass: tipo === 'success'
+        ? 'snack-success'
+        : tipo === 'error'
+          ? 'snack-error'
+          : 'snack-info'
+    });
+  }
 }

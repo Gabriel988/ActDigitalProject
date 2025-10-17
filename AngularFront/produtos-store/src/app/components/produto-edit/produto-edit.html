@@ -30,14 +30,14 @@
     <div class="form-field">
       <label>Status</label>
       <select [(ngModel)]="produto.status">
-        <option [value]="true">Disponível</option>
-        <option [value]="false">Indisponível</option>
+        <option [ngValue]="true">Disponível</option>
+        <option [ngValue]="false">Indisponível</option>
       </select>
     </div>
 
     <div class="form-actions">
       <button class="btn-salvar" (click)="salvarProduto()">Salvar Edição</button>
-      <button class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+      <button class="btn-cancelar" (click)="cancelar()">Voltar</button>
     </div>
   </div>
 </div>

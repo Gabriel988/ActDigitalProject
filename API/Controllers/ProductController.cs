@@ -27,7 +27,6 @@ namespace GeneralTools.Controllers
 
         #region Endpoints
         [HttpGet]
-        //[Authorize]
         public async Task<ObjectResult> Get([FromQuery] string ?nome)
         {
             try
@@ -37,13 +36,12 @@ namespace GeneralTools.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = $"Erro ao buscar os produtos: {ex.Message}" });
+                return BadRequest(ex.Message);
             }
 
         }
         
         [HttpGet("getProduct/{id}")]
-        //[Authorize]
         public async Task<ObjectResult> GetProduct(int id)
         {
             try
@@ -54,12 +52,11 @@ namespace GeneralTools.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = $"Erro ao buscar produto: {ex.Message}" });
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpPost("registerProduct")]
-        //[Authorize]
         public async Task<ObjectResult> PostProductAsync([FromBody] Product value)
         {
             try {
@@ -70,13 +67,12 @@ namespace GeneralTools.Controllers
             }
             catch(Exception ex)
             {
-                return BadRequest(new { message = $"Erro ao adicionar produto: {ex.Message}" });
+                return BadRequest(ex.Message);
             }
 
         }
 
         [HttpPut("changeProduct/{id}")]
-        //[Authorize]
         public async Task<ObjectResult> PutProduct(int id, [FromBody] Product value)
         {
             try
@@ -89,12 +85,11 @@ namespace GeneralTools.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = $"Erro ao adicionar um produto: {ex.Message}" });
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpDelete("deleteProduct/{id}")]
-        //[Authorize]
         public async Task<ObjectResult> DeleteProduct(int id)
         {
             try
@@ -104,7 +99,7 @@ namespace GeneralTools.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = $"Erro ao adicionar produto: {ex.Message}" });
+                return BadRequest(ex.Message );
             }
            
         }
