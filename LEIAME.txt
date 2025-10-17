@@ -21,3 +21,7 @@ RODAR FRONT:
 SEU_DIRETORIO + Act\AngularFront\produtos-store ng serve
 
 
+POSTMAN:
+Deixei no repositório uma coleção de requests para utilizar caso necessario
+
+

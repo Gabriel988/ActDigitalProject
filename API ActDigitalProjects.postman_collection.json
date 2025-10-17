@@ -1,0 +1,306 @@
+{
+	"info": {
+		"_postman_id": "679995be-a50a-4872-86b9-de33617dc6ae",
+		"name": "API ActDigitalProjects",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7544384"
+	},
+	"item": [
+		{
+			"name": "Gerar Produto",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Monitor 27'' 165Hz\",\r\n    \"descricao\": \"Monitor gamer de 27 polegadas com taxa de atualização de 165Hz e tempo de resposta de 1ms\",\r\n    \"dataCadastro\": \"2025-10-15T15:15:00\",\r\n    \"preco\": 1799.00,\r\n    \"quantidadeEstoque\": 30,\r\n    \"categoria\": \"Monitores\",\r\n    \"status\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5171/api/product/registerProduct",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5171",
+					"path": [
+						"api",
+						"product",
+						"registerProduct"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Produto",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5171/api/product",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5171",
+					"path": [
+						"api",
+						"product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Produtos Filtro",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5171/api/product?status=false",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5171",
+					"path": [
+						"api",
+						"product"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar Produto",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5171/api/product/getProduct/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5171",
+					"path": [
+						"api",
+						"product",
+						"getProduct",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alterar Produto",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"TESTE 2\",\r\n    \"descrição\": \"TESTE 2\",\r\n    \"dataCadastro\": \"2025-10-15T15:00:00\",\r\n    \"preço\": 299.90,\r\n    \"quantidadeEstoque\": 80,\r\n    \"categoria\": \"Periféricos\",\r\n    \"status\": false\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5171/api/product/changeProduct/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5171",
+					"path": [
+						"api",
+						"product",
+						"changeProduct",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deletar Produto",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5171/api/product/deleteProduct/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5171",
+					"path": [
+						"api",
+						"product",
+						"deleteProduct",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Autenticação INATIVA",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Captura o token retornado no login e salva na variável global\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"// Se o token estiver dentro de um campo chamado \"Token\"\r",
+							"if (jsonData.token) {\r",
+							"    pm.globals.set(\"jwt_token\", jsonData.token);\r",
+							"    console.log(\"✅ Token JWT salvo com sucesso!\");\r",
+							"} else {\r",
+							"    console.log(\"Nenhum token encontrado na resposta.\");\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"user\": \"GeneralToolsUser2000\",\r\n  \"password\": \"GeneralToolsPass1777\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7082/api/general/auth",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7082",
+					"path": [
+						"api",
+						"general",
+						"auth"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
