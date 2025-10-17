@@ -1,0 +1,23 @@
+Algumas informações importantes:
+
+LOCALHOST: 
+Talvez terá que ser substituído pela porta correta em ambos os projetos, tanto a API quanto o Front em Angular
+
+Na minha maquina os localhosts da API são:
+
+HTTP => http://localhost:5171 -> sugiro usar esse SEMPRE, pois está sem o certificado
+HTTPS => https://localhost:7082
+
+
+Se precisar substituir localhost, substituir no arquivo do Front também: 
+SEU_DIRETORIO + Act\AngularFront\produtos-store\src\app\services\product.service.ts
+
+
+SWAGGER:
+[HTTP]http://localhost:5171/swagger/index.html
+
+
+RODAR FRONT:
+SEU_DIRETORIO + Act\AngularFront\produtos-store ng serve
+
+
