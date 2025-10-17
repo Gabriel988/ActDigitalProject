@@ -20,6 +20,7 @@
 .card {
   background: #fff;
   border-radius: 10px;
+  border-top-left-radius:0px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   padding: 20px;
   display: flex;
@@ -157,4 +158,19 @@
 
 .card-footer span {
   margin-right: 10px;
+}
+
+.notification-stock {
+  width: 20px;
+  height: 20px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background-color: red;
+  position: absolute;
+  top: 0px;
+  left: -30px;
+  color: white;
+  font-size: large;
+  text-align: center;
+  padding: 5px;
 }

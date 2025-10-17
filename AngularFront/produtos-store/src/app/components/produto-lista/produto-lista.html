@@ -8,6 +8,7 @@
     <input type="button" value="Adicionar Produto" class="add-button" (click)="adicionarProduto()"/>
     <div class="card" *ngFor="let produto of produtos">
       <div class="card-header">
+        <div class="notification-stock"> {{produto.quantidadeEstoque}} </div>
         <h2>{{ produto.nome }}</h2>
         <span class="categoria">{{ produto.categoria }}</span>
       </div>
