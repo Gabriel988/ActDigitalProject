@@ -34,9 +34,13 @@ namespace GeneralTools.Controllers
                 var productList = await productServices.ListProduct(nome);
                 return Ok(productList);
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro no servidor.");
             }
 
         }
@@ -50,9 +54,13 @@ namespace GeneralTools.Controllers
                 return Ok(product);
 
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro no servidor.");
             }
         }
 
@@ -65,9 +73,13 @@ namespace GeneralTools.Controllers
                 return Ok(new {message = "Produto adicionado com sucesso!"});
 
             }
-            catch(Exception ex)
+            catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro no servidor.");
             }
 
         }
@@ -83,9 +95,13 @@ namespace GeneralTools.Controllers
                 return Ok(new { message = "Produto alterado com sucesso!" });
 
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro no servidor.");
             }
         }
 
@@ -97,11 +113,15 @@ namespace GeneralTools.Controllers
                 await productServices.DeleteProduct(id);
                 return Ok(new { message = "Produto deletado com sucesso!" });
             }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message );
+                return StatusCode(500, "Ocorreu um erro no servidor.");
             }
-           
+
         }
         #endregion
 

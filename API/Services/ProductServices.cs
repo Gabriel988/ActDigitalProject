@@ -41,10 +41,10 @@ namespace GeneralTools.Services
             {
                 var val = ValidatorObj(product);
                 if (!val.isValid)
-                    throw new Exception(val.validation.message);
+                    throw new ArgumentException(val.validation.message);
 
                 if (ExistsDuplicateProduct(product).Result)
-                    throw new Exception("Já existe um produto cadastrado com esses dados!");
+                    throw new ArgumentException("Já existe um produto cadastrado com esses dados!");
 
 
                 await productsRepository.SaveProduct(product);
@@ -65,7 +65,7 @@ namespace GeneralTools.Services
                 var productList = await productsRepository.ListProduct();
 
                 if (productList == null || productList.Count == 0)
-                    throw new Exception("Nenhum produto cadastrado!");
+                    throw new ArgumentException("Nenhum produto cadastrado!");
 
                 if (nome != null)
                     productList = productList.FindAll(x => x.Nome == nome).ToList();
@@ -90,10 +90,10 @@ namespace GeneralTools.Services
             {               
                 var val = ValidatorObj(product);
                 if (!val.isValid)
-                    throw new Exception(val.validation.message);
+                    throw new ArgumentException(val.validation.message);
 
                 if (ExistsDuplicateProduct(product).Result)
-                    throw new Exception("Já existe um produto cadastrado com esses dados, ou banco está vazio!");
+                    throw new ArgumentException("Já existe um produto cadastrado com esses dados, ou banco está vazio!");
 
                 await productsRepository.UpadateProduct(product);
             }
@@ -113,7 +113,7 @@ namespace GeneralTools.Services
             {
                 var product = productsRepository.GetProduct(id);
                 if (product == null)
-                    throw new Exception($"Nenhum produto cadastrado com esse Id: {id}");
+                    throw new ArgumentException($"Nenhum produto cadastrado com esse Id: {id}");
                 
                 return await product;
             }
@@ -133,7 +133,7 @@ namespace GeneralTools.Services
             {
                 var product = productsRepository.GetProduct(id);
                 if (product == null)
-                    throw new Exception($"Nenhum produto cadastrado com esse Id: {id}");
+                    throw new ArgumentException($"Nenhum produto cadastrado com esse Id: {id}");
 
                await  productsRepository.DeleteProduct(id);
             }
@@ -170,13 +170,13 @@ namespace GeneralTools.Services
         //    {
         //        var val = ValidatorObj(credentials);
         //        if (!val.isValid)
-        //            throw new Exception(val.validation.message);
+        //            throw new ArgumentException (val.validation.message);
 
         //        //Valida no banco de dados
         //        if (!ValidateCredentials(credentials))              
-        //            throw new Exception("Credenciais Invalidas!");                
-                
-                    
+        //            throw new ArgumentException ("Credenciais Invalidas!");                
+
+
         //        return GenerateToken(credentials.User);
 
         //    }
