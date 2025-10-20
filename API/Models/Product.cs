@@ -20,7 +20,6 @@ namespace GeneralTools.Models
         /// <summary>
         /// Descrição do Produto
         /// </summary>
-        [MaxLength(255)]
         public string? Descricao { get; set; }
 
         /// <summary>
