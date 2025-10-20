@@ -48,7 +48,8 @@ export class ProdutoLista implements OnInit {
     });
   }
 
-  buscarProdutos(nome: string): void {
+  buscarProdutos(): void {
+      var nome = this.searchBarText.input.trim();
       this.produtoService.listarProdutosFiltro(nome)
       .then(data => {
         this.produtos = data;
@@ -57,10 +58,6 @@ export class ProdutoLista implements OnInit {
         this.mostrarMensagem(err, 'error');
         this.cdr.detectChanges();
       });   
-  }
-
-  pesquisar(): void {
-    this.buscarProdutos(this.searchBarText.input);
   }
 
   deletarProduto(produto: Product): void {
